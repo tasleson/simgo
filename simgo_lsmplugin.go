@@ -98,13 +98,8 @@ func volDelete(volume *lsm.Volume) (*string, error) {
 	return state.c.VolumeDelete(volume, false)
 }
 
-func info() (string, string) {
-	return "golang forwarding plugin", "0.0.1"
-}
-
 func main() {
 	var cb lsm.CallBacks
-	cb.Required.PluginInfo = info
 	cb.Required.Systems = systems
 	cb.Required.PluginRegister = register
 	cb.Required.PluginUnregister = unregister
@@ -118,7 +113,7 @@ func main() {
 	cb.San.VolumeDelete = volDelete
 	cb.San.Volumes = volumes
 
-	plugin, err := lsm.PluginInit(&cb, os.Args)
+	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
 	} else {
