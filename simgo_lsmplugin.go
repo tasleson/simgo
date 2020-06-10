@@ -98,6 +98,10 @@ func volDelete(volume *lsm.Volume) (*string, error) {
 	return state.c.VolumeDelete(volume, false)
 }
 
+func disks() ([]lsm.Disk, error) {
+	return state.c.Disks()
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -109,9 +113,11 @@ func main() {
 	cb.Required.Capabilities = capabilities
 	cb.Required.JobStatus = jobStatus
 	cb.Required.JobFree = jobFree
+
 	cb.San.VolumeCreate = volCreate
 	cb.San.VolumeDelete = volDelete
 	cb.San.Volumes = volumes
+	cb.San.Disks = disks
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
