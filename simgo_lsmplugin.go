@@ -137,6 +137,14 @@ func volResize(vol *lsm.Volume, newSizeBytes uint64) (*lsm.Volume, *string, erro
 	return &volume, nil, error
 }
 
+func volEnable(vol *lsm.Volume) error {
+	return state.c.VolumeEnable(vol)
+}
+
+func volDisable(vol *lsm.Volume) error {
+	return state.c.VolumeDisable(vol)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -157,6 +165,8 @@ func main() {
 	cb.San.VolumeReplicateRange = volReplicateRange
 	cb.San.VolumeRepRangeBlkSize = volRepRangeBlockSize
 	cb.San.VolumeResize = volResize
+	cb.San.VolumeEnable = volEnable
+	cb.San.VolumeDisable = volDisable
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
