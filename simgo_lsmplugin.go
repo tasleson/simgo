@@ -102,6 +102,14 @@ func disks() ([]lsm.Disk, error) {
 	return state.c.Disks()
 }
 
+func volReplicate(optionalPool *lsm.Pool, repType lsm.VolumeReplicateType,
+	sourceVolume *lsm.Volume, name string) (*lsm.Volume, *string, error) {
+
+	var volume lsm.Volume
+	jobID, error := state.c.VolumeReplicate(optionalPool, repType, sourceVolume, name, false, &volume)
+	return &volume, jobID, error
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -118,6 +126,7 @@ func main() {
 	cb.San.VolumeDelete = volDelete
 	cb.San.Volumes = volumes
 	cb.San.Disks = disks
+	cb.San.VolumeReplicate = volReplicate
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
