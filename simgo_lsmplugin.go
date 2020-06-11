@@ -91,7 +91,11 @@ func volCreate(pool *lsm.Pool, volumeName string, size uint64,
 	var volume lsm.Volume
 	jobID, error := state.c.VolumeCreate(pool, volumeName, size, provisioning,
 		false, &volume)
-	return &volume, jobID, error
+
+	if jobID != nil {
+		return nil, jobID, error
+	}
+	return &volume, nil, error
 }
 
 func volDelete(volume *lsm.Volume) (*string, error) {
@@ -107,7 +111,11 @@ func volReplicate(optionalPool *lsm.Pool, repType lsm.VolumeReplicateType,
 
 	var volume lsm.Volume
 	jobID, error := state.c.VolumeReplicate(optionalPool, repType, sourceVolume, name, false, &volume)
-	return &volume, jobID, error
+
+	if jobID != nil {
+		return nil, jobID, error
+	}
+	return &volume, nil, error
 }
 
 func main() {
