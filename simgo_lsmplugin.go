@@ -127,6 +127,16 @@ func volRepRangeBlockSize(system *lsm.System) (uint32, error) {
 	return state.c.VolumeRepRangeBlkSize(system)
 }
 
+func volResize(vol *lsm.Volume, newSizeBytes uint64) (*lsm.Volume, *string, error) {
+
+	var volume lsm.Volume
+	jobID, error := state.c.VolumeResize(vol, newSizeBytes, false, &volume)
+	if jobID != nil {
+		return nil, jobID, error
+	}
+	return &volume, nil, error
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -146,6 +156,7 @@ func main() {
 	cb.San.VolumeReplicate = volReplicate
 	cb.San.VolumeReplicateRange = volReplicateRange
 	cb.San.VolumeRepRangeBlkSize = volRepRangeBlockSize
+	cb.San.VolumeResize = volResize
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
