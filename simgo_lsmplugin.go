@@ -123,6 +123,10 @@ func volReplicateRange(repType lsm.VolumeReplicateType, srcVol *lsm.Volume, dstV
 	return state.c.VolumeReplicateRange(repType, srcVol, dstVol, ranges, false)
 }
 
+func volRepRangeBlockSize(system *lsm.System) (uint32, error) {
+	return state.c.VolumeRepRangeBlkSize(system)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -141,6 +145,7 @@ func main() {
 	cb.San.Disks = disks
 	cb.San.VolumeReplicate = volReplicate
 	cb.San.VolumeReplicateRange = volReplicateRange
+	cb.San.VolumeRepRangeBlkSize = volRepRangeBlockSize
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
