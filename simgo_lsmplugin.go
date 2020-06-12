@@ -183,6 +183,10 @@ func volsMaskedToAg(ag *lsm.AccessGroup) ([]lsm.Volume, error) {
 	return state.c.VolsMaskedToAg(ag)
 }
 
+func agsGrantedToVol(vol *lsm.Volume) ([]lsm.AccessGroup, error) {
+	return state.c.AgsGrantedToVol(vol)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -213,6 +217,7 @@ func main() {
 	cb.San.AccessGroupDelete = accessGroupDelete
 	cb.San.AccessGroupInitAdd = accessGroupInitAdd
 	cb.San.AccessGroupInitDelete = accessGroupInitDelete
+	cb.San.AgsGrantedToVol = agsGrantedToVol
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
