@@ -132,8 +132,7 @@ func accessGroups() ([]lsm.AccessGroup, error) {
 
 func accessGroupCreate(name string, initID string,
 	initType lsm.InitiatorType, system *lsm.System) (*lsm.AccessGroup, error) {
-	var ag lsm.AccessGroup
-	return &ag, state.c.AccessGroupCreate(name, initID, initType, system, &ag)
+	return state.c.AccessGroupCreate(name, initID, initType, system)
 }
 
 func accessGroupDelete(ag *lsm.AccessGroup) error {
