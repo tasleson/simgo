@@ -195,6 +195,10 @@ func volHasChildDep(vol *lsm.Volume) (bool, error) {
 	return state.c.VolHasChildDep(vol)
 }
 
+func volChildDepRm(vol *lsm.Volume) (*string, error) {
+	return state.c.VolChildDepRm(vol, false)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -221,6 +225,8 @@ func main() {
 	cb.San.VolumeUnMask = volumeUnMask
 	cb.San.VolsMaskedToAg = volsMaskedToAg
 	cb.San.VolHasChildDep = volHasChildDep
+	cb.San.VolChildDepRm = volChildDepRm
+
 	cb.San.AccessGroups = accessGroups
 	cb.San.AccessGroupCreate = accessGroupCreate
 	cb.San.AccessGroupDelete = accessGroupDelete
