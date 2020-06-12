@@ -175,6 +175,10 @@ func volumeMask(vol *lsm.Volume, ag *lsm.AccessGroup) error {
 	return state.c.VolumeMask(vol, ag)
 }
 
+func volumeUnMask(vol *lsm.Volume, ag *lsm.AccessGroup) error {
+	return state.c.VolumeUnMask(vol, ag)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -198,6 +202,7 @@ func main() {
 	cb.San.VolumeEnable = volEnable
 	cb.San.VolumeDisable = volDisable
 	cb.San.VolumeMask = volumeMask
+	cb.San.VolumeUnMask = volumeUnMask
 	cb.San.AccessGroups = accessGroups
 	cb.San.AccessGroupCreate = accessGroupCreate
 	cb.San.AccessGroupDelete = accessGroupDelete
