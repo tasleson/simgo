@@ -206,7 +206,7 @@ func targetPorts() ([]lsm.TargetPort, error) {
 }
 
 func main() {
-	var cb lsm.CallBacks
+	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
 	cb.Mgmt.PluginRegister = register
 	cb.Mgmt.PluginUnregister = unregister
