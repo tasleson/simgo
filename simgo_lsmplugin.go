@@ -201,6 +201,10 @@ func volChildDepRm(vol *lsm.Volume) (*string, error) {
 	return state.c.VolChildDepRm(vol, false)
 }
 
+func targetPorts() ([]lsm.TargetPort, error) {
+	return state.c.TargetPorts()
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -236,6 +240,8 @@ func main() {
 	cb.San.AccessGroupInitDelete = accessGroupInitDelete
 	cb.San.AgsGrantedToVol = agsGrantedToVol
 	cb.San.IscsiChapAuthSet = iscsiChapAuthSet
+
+	cb.San.TargetPorts = targetPorts
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
