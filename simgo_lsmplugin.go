@@ -149,6 +149,12 @@ func accessGroups() ([]lsm.AccessGroup, error) {
 	return state.c.AccessGroups()
 }
 
+func accessGroupCreate(name string, initID string,
+	initType lsm.InitiatorType, system *lsm.System) (*lsm.AccessGroup, error) {
+	var ag lsm.AccessGroup
+	return &ag, state.c.AccessGroupCreate(name, initID, initType, system, &ag)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -172,6 +178,7 @@ func main() {
 	cb.San.VolumeEnable = volEnable
 	cb.San.VolumeDisable = volDisable
 	cb.San.AccessGroups = accessGroups
+	cb.San.AccessGroupCreate = accessGroupCreate
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
