@@ -191,6 +191,10 @@ func iscsiChapAuthSet(initID string, inUser *string, inPassword *string, outUser
 	return state.c.IscsiChapAuthSet(initID, inUser, inPassword, outUser, outPassword)
 }
 
+func volHasChildDep(vol *lsm.Volume) (bool, error) {
+	return state.c.VolHasChildDep(vol)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -216,6 +220,7 @@ func main() {
 	cb.San.VolumeMask = volumeMask
 	cb.San.VolumeUnMask = volumeUnMask
 	cb.San.VolsMaskedToAg = volsMaskedToAg
+	cb.San.VolHasChildDep = volHasChildDep
 	cb.San.AccessGroups = accessGroups
 	cb.San.AccessGroupCreate = accessGroupCreate
 	cb.San.AccessGroupDelete = accessGroupDelete
