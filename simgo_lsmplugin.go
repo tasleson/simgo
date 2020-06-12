@@ -122,13 +122,7 @@ func volRepRangeBlockSize(system *lsm.System) (uint32, error) {
 }
 
 func volResize(vol *lsm.Volume, newSizeBytes uint64) (*lsm.Volume, *string, error) {
-
-	var volume lsm.Volume
-	jobID, error := state.c.VolumeResize(vol, newSizeBytes, false, &volume)
-	if jobID != nil {
-		return nil, jobID, error
-	}
-	return &volume, nil, error
+	return state.c.VolumeResize(vol, newSizeBytes, false)
 }
 
 func volEnable(vol *lsm.Volume) error {
