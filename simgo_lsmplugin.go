@@ -171,6 +171,10 @@ func accessGroupInitDelete(ag *lsm.AccessGroup,
 	return &rc, state.c.AccessGroupInitDelete(ag, initID, initType, &rc)
 }
 
+func volumeMask(vol *lsm.Volume, ag *lsm.AccessGroup) error {
+	return state.c.VolumeMask(vol, ag)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -193,6 +197,7 @@ func main() {
 	cb.San.VolumeResize = volResize
 	cb.San.VolumeEnable = volEnable
 	cb.San.VolumeDisable = volDisable
+	cb.San.VolumeMask = volumeMask
 	cb.San.AccessGroups = accessGroups
 	cb.San.AccessGroupCreate = accessGroupCreate
 	cb.San.AccessGroupDelete = accessGroupDelete
