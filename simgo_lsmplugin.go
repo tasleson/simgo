@@ -145,6 +145,10 @@ func volDisable(vol *lsm.Volume) error {
 	return state.c.VolumeDisable(vol)
 }
 
+func accessGroups() ([]lsm.AccessGroup, error) {
+	return state.c.AccessGroups()
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -167,6 +171,7 @@ func main() {
 	cb.San.VolumeResize = volResize
 	cb.San.VolumeEnable = volEnable
 	cb.San.VolumeDisable = volDisable
+	cb.San.AccessGroups = accessGroups
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
