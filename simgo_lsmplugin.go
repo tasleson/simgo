@@ -102,14 +102,7 @@ func disks() ([]lsm.Disk, error) {
 
 func volReplicate(optionalPool *lsm.Pool, repType lsm.VolumeReplicateType,
 	sourceVolume *lsm.Volume, name string) (*lsm.Volume, *string, error) {
-
-	var volume lsm.Volume
-	jobID, error := state.c.VolumeReplicate(optionalPool, repType, sourceVolume, name, false, &volume)
-
-	if jobID != nil {
-		return nil, jobID, error
-	}
-	return &volume, nil, error
+	return state.c.VolumeReplicate(optionalPool, repType, sourceVolume, name, false)
 }
 
 func volReplicateRange(repType lsm.VolumeReplicateType, srcVol *lsm.Volume, dstVol *lsm.Volume,
