@@ -159,6 +159,12 @@ func accessGroupDelete(ag *lsm.AccessGroup) error {
 	return state.c.AccessGroupDelete(ag)
 }
 
+func accessGroupInitAdd(ag *lsm.AccessGroup,
+	initID string, initType lsm.InitiatorType) (*lsm.AccessGroup, error) {
+	var rc lsm.AccessGroup
+	return &rc, state.c.AccessGroupInitAdd(ag, initID, initType, &rc)
+}
+
 func main() {
 	var cb lsm.CallBacks
 	cb.Required.Systems = systems
@@ -184,6 +190,7 @@ func main() {
 	cb.San.AccessGroups = accessGroups
 	cb.San.AccessGroupCreate = accessGroupCreate
 	cb.San.AccessGroupDelete = accessGroupDelete
+	cb.San.AccessGroupInitAdd = accessGroupInitAdd
 
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
