@@ -207,15 +207,15 @@ func targetPorts() ([]lsm.TargetPort, error) {
 
 func main() {
 	var cb lsm.CallBacks
-	cb.Required.Systems = systems
-	cb.Required.PluginRegister = register
-	cb.Required.PluginUnregister = unregister
-	cb.Required.Pools = pools
-	cb.Required.TimeOutSet = tmoSet
-	cb.Required.TimeOutGet = tmoGet
-	cb.Required.Capabilities = capabilities
-	cb.Required.JobStatus = jobStatus
-	cb.Required.JobFree = jobFree
+	cb.Mgmt.Systems = systems
+	cb.Mgmt.PluginRegister = register
+	cb.Mgmt.PluginUnregister = unregister
+	cb.Mgmt.Pools = pools
+	cb.Mgmt.TimeOutSet = tmoSet
+	cb.Mgmt.TimeOutGet = tmoGet
+	cb.Mgmt.Capabilities = capabilities
+	cb.Mgmt.JobStatus = jobStatus
+	cb.Mgmt.JobFree = jobFree
 
 	cb.San.VolumeCreate = volCreate
 	cb.San.VolumeDelete = volDelete
