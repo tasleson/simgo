@@ -220,6 +220,11 @@ func fileSystemSnapShotDelete(fs *lsm.FileSystem, ss *lsm.FileSystemSnapShot) (*
 func fileSystemSnapShots(fs *lsm.FileSystem) ([]lsm.FileSystemSnapShot, error) {
 	return state.c.FsSnapShots(fs)
 }
+
+func fileSystemHasChildDep(fs *lsm.FileSystem, files []string) (bool, error) {
+	return state.c.FsHasChildDep(fs, files)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -267,6 +272,8 @@ func main() {
 	cb.File.FsSnapShotCreate = fileSystemSnapShotCreate
 	cb.File.FsSnapShotDelete = fileSystemSnapShotDelete
 	cb.File.FsSnapShots = fileSystemSnapShots
+
+	cb.File.FsHasChildDep = fileSystemHasChildDep
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
