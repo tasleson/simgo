@@ -181,6 +181,12 @@ func targetPorts() ([]lsm.TargetPort, error) {
 	return state.c.TargetPorts()
 }
 
+func fileSystems(search ...string) ([]lsm.FileSystem, error) {
+	if len(search) > 0 {
+		return state.c.FileSystems(search[0], search[1])
+	}
+	return state.c.FileSystems()
+}
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -219,6 +225,7 @@ func main() {
 
 	cb.San.TargetPorts = targetPorts
 
+	cb.File.FileSystems = fileSystems
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
