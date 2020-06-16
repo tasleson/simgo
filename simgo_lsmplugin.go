@@ -225,6 +225,10 @@ func fileSystemHasChildDep(fs *lsm.FileSystem, files []string) (bool, error) {
 	return state.c.FsHasChildDep(fs, files)
 }
 
+func fileSystemChildDepRm(fs *lsm.FileSystem, files []string) (*string, error) {
+	return state.c.FsChildDepRm(fs, files, false)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -274,6 +278,8 @@ func main() {
 	cb.File.FsSnapShots = fileSystemSnapShots
 
 	cb.File.FsHasChildDep = fileSystemHasChildDep
+	cb.File.FsChildDepRm = fileSystemChildDepRm
+
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
