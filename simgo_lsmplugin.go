@@ -187,6 +187,10 @@ func fileSystems(search ...string) ([]lsm.FileSystem, error) {
 	}
 	return state.c.FileSystems()
 }
+
+func fileSystemCreate(pool *lsm.Pool, name string, sizeBytes uint64) (*lsm.FileSystem, *string, error) {
+	return state.c.FsCreate(pool, name, sizeBytes, false)
+}
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -226,6 +230,7 @@ func main() {
 	cb.San.TargetPorts = targetPorts
 
 	cb.File.FileSystems = fileSystems
+	cb.File.FsCreate = fileSystemCreate
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
