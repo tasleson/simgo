@@ -209,6 +209,10 @@ func fileSystemFileClone(fs *lsm.FileSystem, srcFileName string, dstFileName str
 	return state.c.FsFileClone(fs, srcFileName, dstFileName, optionalSnapShot, false)
 }
 
+func fileSystemSnapShotCreate(fs *lsm.FileSystem, name string) (*lsm.FileSystemSnapShot, *string, error) {
+	return state.c.FsSnapShotCreate(fs, name, false)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -253,6 +257,7 @@ func main() {
 	cb.File.FsResize = fileSystemResize
 	cb.File.FsClone = fileSystemClone
 	cb.File.FsFileClone = fileSystemFileClone
+	cb.File.FsSnapShotCreate = fileSystemSnapShotCreate
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
