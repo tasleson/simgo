@@ -146,8 +146,7 @@ func accessGroupInitAdd(ag *lsm.AccessGroup,
 
 func accessGroupInitDelete(ag *lsm.AccessGroup,
 	initID string, initType lsm.InitiatorType) (*lsm.AccessGroup, error) {
-	var rc lsm.AccessGroup
-	return &rc, state.c.AccessGroupInitDelete(ag, initID, initType, &rc)
+	return state.c.AccessGroupInitDelete(ag, initID, initType)
 }
 
 func volumeMask(vol *lsm.Volume, ag *lsm.AccessGroup) error {
