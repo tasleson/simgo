@@ -141,8 +141,7 @@ func accessGroupDelete(ag *lsm.AccessGroup) error {
 
 func accessGroupInitAdd(ag *lsm.AccessGroup,
 	initID string, initType lsm.InitiatorType) (*lsm.AccessGroup, error) {
-	var rc lsm.AccessGroup
-	return &rc, state.c.AccessGroupInitAdd(ag, initID, initType, &rc)
+	return state.c.AccessGroupInitAdd(ag, initID, initType)
 }
 
 func accessGroupInitDelete(ag *lsm.AccessGroup,
