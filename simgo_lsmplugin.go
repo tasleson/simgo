@@ -200,6 +200,10 @@ func fileSystemResize(fs *lsm.FileSystem, newSizeBytes uint64) (*lsm.FileSystem,
 	return state.c.FsResize(fs, newSizeBytes, false)
 }
 
+func fileSystemClone(srcFs *lsm.FileSystem, destName string, optionalSnapShot *lsm.FileSystemSnapShot) (*lsm.FileSystem, *string, error) {
+	return state.c.FsClone(srcFs, destName, optionalSnapShot, false)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -242,6 +246,7 @@ func main() {
 	cb.File.FsCreate = fileSystemCreate
 	cb.File.FsDelete = fileSystemDelete
 	cb.File.FsResize = fileSystemResize
+	cb.File.FsClone = fileSystemClone
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
