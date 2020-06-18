@@ -263,6 +263,10 @@ func fsExportAuthTypes() ([]string, error) {
 	return state.c.NfsExportAuthTypes()
 }
 
+func volRaidCreate(name string, raidType lsm.RaidType, disks []lsm.Disk, stripSize uint32) (*lsm.Volume, error) {
+	return state.c.VolRaidCreate(name, raidType, disks, stripSize)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -321,6 +325,8 @@ func main() {
 	cb.Nfs.FsExport = fsExport
 	cb.Nfs.FsUnExport = fsUnExport
 	cb.Nfs.ExportAuthTypes = fsExportAuthTypes
+
+	cb.Hba.VolRaidCreate = volRaidCreate
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
