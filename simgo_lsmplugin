@@ -1,0 +1,9 @@
+#!/bin/bash
+
+PDIR=$GOPATH/src/github.com/tasleson/simgo
+
+COV=/tmp/simgo_cov
+mkdir -p $COV
+
+cd $PDIR
+LSM_GO_FD=$1 go test -v -count 1 -coverprofile=$COV/plugin_$RANDOM.out -coverpkg=github.com/libstorage/libstoragemgmt-golang -run TestMain
