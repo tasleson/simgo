@@ -267,6 +267,10 @@ func volRaidCreate(name string, raidType lsm.RaidType, disks []lsm.Disk, stripSi
 	return state.c.VolRaidCreate(name, raidType, disks, stripSize)
 }
 
+func volRaidCreateCapGet(sys *lsm.System) (*lsm.SupportedRaidCapability, error) {
+	return state.c.VolRaidCreateCapGet(sys)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -327,6 +331,7 @@ func main() {
 	cb.Nfs.ExportAuthTypes = fsExportAuthTypes
 
 	cb.Hba.VolRaidCreate = volRaidCreate
+	cb.Hba.VolRaidCreateCapGet = volRaidCreateCapGet
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
