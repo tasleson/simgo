@@ -271,6 +271,10 @@ func volRaidCreateCapGet(sys *lsm.System) (*lsm.SupportedRaidCapability, error) 
 	return state.c.VolRaidCreateCapGet(sys)
 }
 
+func poolMemberInfo(pool *lsm.Pool) (*lsm.PoolMemberInfo, error) {
+	return state.c.PoolMemberInfo(pool)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -332,6 +336,7 @@ func main() {
 
 	cb.Hba.VolRaidCreate = volRaidCreate
 	cb.Hba.VolRaidCreateCapGet = volRaidCreateCapGet
+	cb.Hba.PoolMemberInfo = poolMemberInfo
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
