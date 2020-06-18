@@ -259,6 +259,10 @@ func fsUnExport(export *lsm.NfsExport) error {
 	return state.c.FsUnExport(export)
 }
 
+func fsExportAuthTypes() ([]string, error) {
+	return state.c.NfsExportAuthTypes()
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -316,6 +320,7 @@ func main() {
 	cb.Nfs.Exports = exports
 	cb.Nfs.FsExport = fsExport
 	cb.Nfs.FsUnExport = fsUnExport
+	cb.Nfs.ExportAuthTypes = fsExportAuthTypes
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
