@@ -250,6 +250,11 @@ func exports(search ...string) ([]lsm.NfsExport, error) {
 	return state.c.NfsExports()
 }
 
+func fsExport(fs *lsm.FileSystem, exportPath *string,
+	access *lsm.NfsAccess, authType *string, options *string) (*lsm.NfsExport, error) {
+	return state.c.FsExport(fs, exportPath, access, authType, options)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -305,6 +310,7 @@ func main() {
 	cb.File.FsChildDepRm = fileSystemChildDepRm
 
 	cb.Nfs.Exports = exports
+	cb.Nfs.FsExport = fsExport
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
