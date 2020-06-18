@@ -229,6 +229,12 @@ func fileSystemSnapShots(fs *lsm.FileSystem) ([]lsm.FileSystemSnapShot, error) {
 	return state.c.FsSnapShots(fs)
 }
 
+func fileSystemSnapShotRestore(fs *lsm.FileSystem, ss *lsm.FileSystemSnapShot,
+	allFiles bool, files []string, restoreFiles []string) (*string, error) {
+
+	return state.c.FsSnapShotRestore(fs, ss, allFiles, files, restoreFiles, false)
+}
+
 func fileSystemHasChildDep(fs *lsm.FileSystem, files []string) (bool, error) {
 	return state.c.FsHasChildDep(fs, files)
 }
@@ -286,6 +292,7 @@ func main() {
 	cb.File.FsSnapShotCreate = fileSystemSnapShotCreate
 	cb.File.FsSnapShotDelete = fileSystemSnapShotDelete
 	cb.File.FsSnapShots = fileSystemSnapShots
+	cb.File.FsSnapShotRestore = fileSystemSnapShotRestore
 
 	cb.File.FsHasChildDep = fileSystemHasChildDep
 	cb.File.FsChildDepRm = fileSystemChildDepRm
