@@ -279,6 +279,10 @@ func handleVolRaidInfo(vol *lsm.Volume) (*lsm.VolumeRaidInfo, error) {
 	return state.c.VolRaidInfo(vol)
 }
 
+func handleBatteries() ([]lsm.Battery, error) {
+	return state.c.Batteries()
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -342,6 +346,7 @@ func main() {
 	cb.Hba.VolRaidCreateCapGet = volRaidCreateCapGet
 	cb.Hba.PoolMemberInfo = poolMemberInfo
 	cb.Hba.VolRaidInfo = handleVolRaidInfo
+	cb.Hba.Batteries = handleBatteries
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
