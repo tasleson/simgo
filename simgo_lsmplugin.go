@@ -283,6 +283,10 @@ func handleBatteries() ([]lsm.Battery, error) {
 	return state.c.Batteries()
 }
 
+func sysReadCachePctSet(system *lsm.System, readPercent uint32) error {
+	return state.c.SysReadCachePctSet(system, readPercent)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -347,6 +351,8 @@ func main() {
 	cb.Hba.PoolMemberInfo = poolMemberInfo
 	cb.Hba.VolRaidInfo = handleVolRaidInfo
 	cb.Hba.Batteries = handleBatteries
+
+	cb.Cache.SysReadCachePctSet = sysReadCachePctSet
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
