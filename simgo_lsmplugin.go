@@ -299,6 +299,10 @@ func volWriteCacheSet(volume *lsm.Volume, wcp lsm.WriteCachePolicy) error {
 	return state.c.VolWriteCacheSet(volume, wcp)
 }
 
+func volReadCacheSet(volume *lsm.Volume, rcp lsm.ReadCachePolicy) error {
+	return state.c.VolReadCacheSet(volume, rcp)
+}
+
 func main() {
 	var cb lsm.PluginCallBacks
 	cb.Mgmt.Systems = systems
@@ -368,6 +372,8 @@ func main() {
 	cb.Cache.VolCacheInfo = volCacheInfo
 	cb.Cache.VolPhyDiskCacheSet = volPhyDiskCacheSet
 	cb.Cache.VolWriteCacheSet = volWriteCacheSet
+	cb.Cache.VolReadCacheSet = volReadCacheSet
+
 	plugin, err := lsm.PluginInit(&cb, os.Args, "golang forwarding plugin", "0.0.1")
 	if err != nil {
 		fmt.Printf("Failed to initialize plugin, exiting! (%s)\n", err)
