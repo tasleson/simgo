@@ -185,6 +185,10 @@ func volIdentLedOn(vol *lsm.Volume) error {
 	return state.c.VolIdentLedOn(vol)
 }
 
+func volIdentLedOff(vol *lsm.Volume) error {
+	return state.c.VolIdentLedOff(vol)
+}
+
 func fileSystems(search ...string) ([]lsm.FileSystem, error) {
 	if len(search) > 0 {
 		return state.c.FileSystems(search[0], search[1])
@@ -271,6 +275,7 @@ func main() {
 
 	cb.San.TargetPorts = targetPorts
 	cb.San.VolIdentLedOn = volIdentLedOn
+	cb.San.VolIdentLedOff = volIdentLedOff
 
 	cb.File.FileSystems = fileSystems
 	cb.File.FsCreate = fileSystemCreate
