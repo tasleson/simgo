@@ -181,6 +181,10 @@ func targetPorts() ([]lsm.TargetPort, error) {
 	return state.c.TargetPorts()
 }
 
+func volIdentLedOn(vol *lsm.Volume) error {
+	return state.c.VolIdentLedOn(vol)
+}
+
 func fileSystems(search ...string) ([]lsm.FileSystem, error) {
 	if len(search) > 0 {
 		return state.c.FileSystems(search[0], search[1])
@@ -266,6 +270,7 @@ func main() {
 	cb.San.IscsiChapAuthSet = iscsiChapAuthSet
 
 	cb.San.TargetPorts = targetPorts
+	cb.San.VolIdentLedOn = volIdentLedOn
 
 	cb.File.FileSystems = fileSystems
 	cb.File.FsCreate = fileSystemCreate
